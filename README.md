@@ -1,4 +1,4 @@
-# Log
+# GoLog
 Simplistic golang log package.
 
 Functions
