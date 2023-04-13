@@ -6,6 +6,8 @@ Functions
 ```go
 func SetLevel(lvl Level)
 func SetPath(p string) // set path to log dir for logging to file
+func EnableLogToFile()
+func DisableLogToFile()
 
 func Debug(format string, args ...any) Log
 func Info(format string, args ...any) Log
