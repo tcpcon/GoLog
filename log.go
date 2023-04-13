@@ -4,7 +4,6 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
-	"regexp"
 	"time"
 	"fmt"
 	"os"
@@ -20,24 +19,6 @@ const (
 	LevelFatal
 )
 
-var (
-	level        Level
-	path         = "./logs"
-
-	ansiRegex, _ = regexp.Compile(`(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]`)
-)
-
-type (
-	Level  uint32
-
-	Log    struct {
-		text, ts string
-		lvl      Level
-	}
-
-	Params map[string]any
-)
-
 func init() {
 	if runtime.GOOS == "windows" {
 		var (
@@ -50,29 +31,6 @@ func init() {
 	}
 }
 
-func (lvl Level) string(coloured bool) string {
-	var str string
-
-	switch lvl {
-	case LevelDebug:
-		str = "\u001b[32mDBG"
-	case LevelInfo:
-		str = "\u001b[32mINF"
-	case LevelWarn:
-		str = "\u001b[33mWRN"
-	case LevelError:
-		str = "\u001b[31mERR"
-	case LevelFatal:
-		str = "\u001b[31mFAT"
-	}
-
-	if coloured {
-		return str
-	}
-
-	return stripAnsiCodes(str)
-}
-
 func SetLevel(lvl Level) {
 	if !(lvl <= LevelFatal) {
 		panic("level " + strconv.Itoa(int(lvl)) + " is out of bounds")
@@ -83,38 +41,6 @@ func SetLevel(lvl Level) {
 
 func SetPath(p string) {
 	path = p
-}
-
-func new(lvl Level, text string) Log {
-	return Log{
-		text: text,
-		ts: strconv.Itoa(int(time.Now().Unix())),
-		lvl: lvl,
-	}
-}
-
-func stripAnsiCodes(str string) string {
-	return ansiRegex.ReplaceAllLiteralString(str, "")
-}
-
-func formatParams(format string, args []any) string {
-	var paramsString string
-
-	if len(args) > 0 {
-		if params, ok := args[len(args) - 1].(Params); ok {
-			for k, v := range params {
-				paramsString += fmt.Sprintf("\u001b[1m\u001b[90m%s=\u001b[0m%v ", k, v)
-			}
-
-			args = args[:len(args) - 1]
-		}
-	}
-
-	if len(paramsString) > 0 {
-		paramsString = paramsString[:len(paramsString) - 1]
-	}
-
-	return fmt.Sprintf("%s %s", fmt.Sprintf(format, args...), paramsString)
 }
 
 func (l Log) Msg() Log {
