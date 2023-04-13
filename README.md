@@ -23,3 +23,4 @@ func (l Log) File() Log // log to file
 ```go
 log.Debug("Hello, %s", "World", log.Params{"time": "3pm", "afternoon": true})
 ```
+![example_1](./assets/example_1.png)
