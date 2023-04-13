@@ -39,6 +39,14 @@ func DisableLogToFile() {
 	logToFile = false
 }
 
+func EnableLogToMsg() {
+	logToMsg = true
+}
+
+func DisableLogToMsg() {
+	logToMsg = false
+}
+
 func SetLevel(lvl Level) {
 	if !(lvl <= LevelFatal) {
 		panic("level " + strconv.Itoa(int(lvl)) + " is out of bounds")
