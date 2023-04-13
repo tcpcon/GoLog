@@ -52,7 +52,7 @@ func SetPath(p string) {
 }
 
 func (l Log) Msg() Log {
-	if l.lvl >= level {
+	if logToMsg && l.lvl >= level {
 		out := os.Stdout
 		if l.lvl == LevelError || l.lvl == LevelFatal {
 			out = os.Stderr
