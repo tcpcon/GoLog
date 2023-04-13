@@ -1,2 +1,2 @@
-# Logging
+# Log
 Simplistic golang log package.
