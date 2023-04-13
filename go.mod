@@ -1,4 +1,4 @@
-module github.com/tcpcon/log
+module github.com/tcpcon/Log
 
 go 1.20
 
