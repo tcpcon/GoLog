@@ -4,6 +4,9 @@ Simplistic golang log package.
 Functions
 
 ```go
+func SetLevel(lvl Level)
+func SetPath(p string) // set path to log dir for logging to file
+
 func Debug(format string, args ...any) Log
 func Info(format string, args ...any) Log
 func Warn(format string, args ...any) Log
