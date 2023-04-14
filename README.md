@@ -18,13 +18,12 @@ func Warn(format string, args ...any) Log
 func Error(format string, args ...any) Log
 func Fatal(format string, args ...any) Log
 
-func (l Log) Msg() Log // log to stdout/stderr
-func (l Log) File() Log // log to file
+func (l Log) Msg() // log to stdout/stderr
+func (l Log) File() // log to file
+func (l Log) Full() // log to stdout/stderr then file (if allowed)
 ```
 
 ## Info
-
-- `Msg()` and `File()` funcs also return the supplied Log struct allowing for clean statements like `log.Info("Info Message").Msg().File()`
 - Log functions will format string with args such as `fmt.Printf` in every case except below
 - If the last argument to a log function is of type `log.Params (map[string]any)` the output will format `log.Params` and append it to the log message, see example below
 
