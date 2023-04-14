@@ -59,7 +59,7 @@ func SetPath(p string) {
 	path = p
 }
 
-func (l Log) Msg() Log {
+func (l Log) Msg() {
 	if logToMsg && l.lvl >= level {
 		out := os.Stdout
 		if l.lvl == LevelError || l.lvl == LevelFatal {
@@ -78,7 +78,41 @@ func (l Log) Msg() Log {
 	return l
 }
 
-func (l Log) File() Log {
+func (l Log) File() {
+	if logToFile {
+		if err := os.MkdirAll(path, os.ModePerm); err != nil {
+			panic(err)
+		}
+		
+		f, err := os.OpenFile(fmt.Sprintf("%s/%s", path, strings.ToLower(l.lvl.string(false)) + ".log"), os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+		if err != nil {
+			panic(err)
+		}
+	
+		if _, err := f.WriteString(fmt.Sprintf("%s %s", time.Now().Format("2006-01-02 15:04:05"), stripAnsiCodes(l.text)) + "\n"); err != nil {
+			panic(err)
+		}
+	}
+	
+	if l.lvl == LevelFatal {
+		os.Exit(1)
+	}
+
+	return l
+}
+
+func (l Log) Full() {
+	if logToMsg && l.lvl >= level {
+		out := os.Stdout
+		if l.lvl == LevelError || l.lvl == LevelFatal {
+			out = os.Stderr
+		}
+
+		if _, err := out.WriteString(fmt.Sprintf("\u001b[1m\u001b[90m%s %s\u001b[90m ~\u001b[0m %s\n", time.Now().Format("15:04:05"), l.lvl.string(true), l.text)); err != nil {
+			panic(err)
+		}
+	}
+	
 	if logToFile {
 		if err := os.MkdirAll(path, os.ModePerm); err != nil {
 			panic(err)
