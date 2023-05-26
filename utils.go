@@ -3,6 +3,7 @@ package log
 import (
 	"strings"
 	"time"
+	"fmt"
 	"os"
 )
 
