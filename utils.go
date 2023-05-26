@@ -1,6 +1,10 @@
 package log
 
-import "fmt"
+import (
+	"strings"
+	"time"
+	"os"
+)
 
 func stripAnsiCodes(str string) string {
 	return ansiRegex.ReplaceAllLiteralString(str, "")
