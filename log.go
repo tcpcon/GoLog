@@ -3,7 +3,6 @@ package log
 import (
 	"runtime"
 	"strconv"
-	"fmt"
 	"os"
 
 	"golang.org/x/sys/windows"
