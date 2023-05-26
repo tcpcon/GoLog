@@ -3,8 +3,6 @@ package log
 import (
 	"runtime"
 	"strconv"
-	"strings"
-	"time"
 	"fmt"
 	"os"
 
